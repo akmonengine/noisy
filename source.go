@@ -18,12 +18,11 @@ func Generate() float64 {
 	//		Invert[Constant]{Constant{0.3}},
 	//	}
 
-	generator := Perlin{
-		OctaveCount: 8,
-		Persistence: 0.7,
-		Lacunarity:  2.0,
-		Frequency:   1.0,
-		Seed:        18272,
+	generator := Sphere{
+		Frequency: 1.0,
+		OffsetX:   -0.5,
+		OffsetY:   -0.5,
+		OffsetZ:   -0.5,
 	}
 
 	RenderImg(generator, "test.png", 1024, 1024)
