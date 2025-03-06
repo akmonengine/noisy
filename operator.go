@@ -80,6 +80,14 @@ func (clamp Clamp[A]) GetValue(x, y, z float64) float64 {
 	return value
 }
 
+type Abs[A SourceInterface] struct {
+	SourceA A
+}
+
+func (abs Abs[A]) GetValue(x, y, z float64) float64 {
+	return math.Abs(abs.SourceA.GetValue(x, y, z))
+}
+
 type Power[A, B SourceInterface] struct {
 	SourceA A
 	SourceB B
