@@ -27,7 +27,7 @@ func (gradient Gradient) GetColor(position float64) (color.RGBA, error) {
 	}
 
 	keys := []float64{}
-	for k, _ := range gradient {
+	for k := range gradient {
 		keys = append(keys, k)
 	}
 
@@ -99,7 +99,5 @@ func RenderImg(source SourceInterface, gradient Gradient, filename string, width
 		}
 	}
 
-	png.Encode(file, img.SubImage(img.Bounds()))
-
-	return nil
+	return png.Encode(file, img.SubImage(img.Bounds()))
 }
