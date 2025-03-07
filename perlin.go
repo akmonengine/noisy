@@ -13,7 +13,7 @@ func (perlin Perlin) GetValue(x, y, z float64) float64 {
 
 	for range perlin.OctaveCount {
 		value += persistence * getNoise(seed, x*frequency, y*frequency, z*frequency)
-		// prepapre the persistency & frequency for the next octave
+		// prepare the persistency & frequency for the next octave
 		persistence *= perlin.Persistence
 		frequency *= perlin.Lacunarity
 		// offset the seed to avoid seeing patterns

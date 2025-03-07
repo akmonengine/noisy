@@ -10,7 +10,7 @@
 
 Noisy is a Go tool to generate textures and heightmaps with noises algorithm (up to 3 dimensions). This is useful
 for procedural generation, for example in game development.
-Using Perlin Noise (https://mrl.cs.nyu.edu/~perlin/noise/), it allows to combine different textures (sources) using operators (e.g. add, multiply, clamps).
+Using Perlin Noise (https://mrl.cs.nyu.edu/~perlin/noise/), it allows to combine different sources (perlin noise, ridged multifractal) using operators (e.g. add, multiply, clamps).
 
 ## Basic Usage
 ### Sources
@@ -20,7 +20,6 @@ Using Perlin Noise (https://mrl.cs.nyu.edu/~perlin/noise/), it allows to combine
 
 ## What is to come next ?
 - Voronoi source
-- Ridged Multi source
 
 ## Sources
 - https://mrl.cs.nyu.edu/~perlin/noise/
