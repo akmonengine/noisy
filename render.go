@@ -9,6 +9,7 @@ import (
 	"sort"
 )
 
+// Gradient is an unsorted map of colors, with positions [-1;1] as keys.
 type Gradient map[float64]color.RGBA
 
 func clampValue(value, lowerBound, upperBound int) int {
@@ -21,6 +22,10 @@ func clampValue(value, lowerBound, upperBound int) int {
 	}
 }
 
+// GetColor returns a color.RGBA for a given position.
+//
+// The color is computed with lerp, to get the closest one from the Gradient map.
+// An error is returned if the Gradient does not contain at least 2 colors.
 func (gradient Gradient) GetColor(position float64) (color.RGBA, error) {
 	if len(gradient) < 2 {
 		return color.RGBA{}, fmt.Errorf("a Gradient must have at least 2 values")
@@ -74,6 +79,10 @@ func linearInterpColor(color0, color1 color.RGBA, alpha float64) color.RGBA {
 	return color.RGBA{r, g, b, a}
 }
 
+// RenderImg generates an image from source, stored in filename.
+//
+// The gradient parameter defines the colors to build the image.
+// The parameters width & height defines the size. The image should be squared, to avoid deformations.
 func RenderImg(source SourceInterface, gradient Gradient, filename string, width int, height int) error {
 	file, err := os.Create(filename)
 	if err != nil {

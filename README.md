@@ -18,7 +18,20 @@ Using Perlin Noise (https://mrl.cs.nyu.edu/~perlin/noise/), it allows to combine
 
 
 ## What's next ?
+### Sources
+- Checkboard source
+- Cylinder source
+- Sine source
 - Voronoi source
+- White noise source
+
+### Operators
+- Displace
+- Terrace
+
+### Processes
+- Gaussian Blur
+- Erosion
 
 ## Sources
 - https://mrl.cs.nyu.edu/~perlin/noise/
