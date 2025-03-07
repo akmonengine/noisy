@@ -58,9 +58,10 @@ func grad(hash int, x, y, z float64) float64 {
 }
 
 func getNoise(seed int, x, y, z float64) float64 {
-	x += float64(seed)
-	y += float64(seed)
-	z += float64(seed)
+	hashValue := uint32(seed)*1664525 + 640406589
+	x += float64(hashValue & 0xFF)
+	y += float64(hashValue >> 8 & 0xFF)
+	z += float64(hashValue >> 16 & 0xFF)
 
 	X := int(math.Floor(x)) & 255
 	Y := int(math.Floor(y)) & 255
