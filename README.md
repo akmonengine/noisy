@@ -16,9 +16,8 @@ Using Perlin Noise (https://mrl.cs.nyu.edu/~perlin/noise/), it allows to combine
 ### Sources
 ### Operators
 
-## Benchmark
 
-## What is to come next ?
+## What's next ?
 - Voronoi source
 
 ## Sources
