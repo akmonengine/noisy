@@ -133,3 +133,25 @@ func (displace Displace) GetValue(x, y, z float64) float64 {
 
 	return displace.Source.GetValue(xDisplace, yDisplace, zDisplace)
 }
+
+type Turbulence struct {
+	Source           SourceInterface
+	Frequency, Power float64
+	Roughness, Seed  int
+}
+
+// GetValue returns the value from Source, computed using the displacement of x,y,z with SourceX, SourceY and SourceZ values.
+func (turbulence Turbulence) GetValue(x, y, z float64) float64 {
+	xPerlin := Perlin{
+		Frequency:   turbulence.Frequency,
+		Lacunarity:  2.0,
+		Persistence: 0.5,
+		OctaveCount: turbulence.Roughness,
+		Seed:        turbulence.Seed,
+	}
+	xDistort := x + (xPerlin.GetValue(x, y, z) * turbulence.Power)
+	yDistort := y + (xPerlin.GetValue(x, y, z) * turbulence.Power)
+	zDistort := z + (xPerlin.GetValue(x, y, z) * turbulence.Power)
+
+	return turbulence.Source.GetValue(xDistort, yDistort, zDistort)
+}
