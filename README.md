@@ -35,6 +35,12 @@ source := noisy.Sphere{
 }
 ```
 
+#### White Noise
+White Noise returns a completely random value between [-1;1].
+```go
+source := noisy.WhiteNoise{}
+```
+
 #### Perlin Noise
 Perlin Noise is a standard for noise generation.
 ```go
@@ -171,7 +177,6 @@ generator := Multiply{
 - Cylinder source
 - Sine source
 - Voronoi source
-- White noise source
 
 ### Operators
 - Displace
