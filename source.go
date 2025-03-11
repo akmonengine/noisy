@@ -1,6 +1,6 @@
 package noisy
 
-// SourceInterface defines a SourceA/Operator.
+// SourceInterface defines a Source/Operator.
 //
 // Its method GetValue returns a value between [-1;1], for a given 3 dimension position.
 type SourceInterface interface {
