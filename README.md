@@ -126,6 +126,10 @@ It takes a Source, and three properties used to generate the noise:
 - Roughness, the number of Octaves of the 3 Perlin Noise
 - Power, the scaling factor of the displacement
 
+#### Turbulence1D
+The Turbulence1D operator is similar to the Turbulence, except it uses only one Perlin Noise.
+This allows some different effect, more wave shaped.
+
 ### Result
 Once your generator is built, you can either fetch the value for one position:
 ```go

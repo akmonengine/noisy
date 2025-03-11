@@ -128,10 +128,34 @@ type Displace struct {
 // GetValue returns the value from Source, computed using the displacement of x,y,z with SourceX, SourceY and SourceZ values.
 func (displace Displace) GetValue(x, y, z float64) float64 {
 	xDisplace := x + displace.SourceX.GetValue(x, y, z)
-	yDisplace := y + displace.SourceX.GetValue(x, y, z)
-	zDisplace := z + displace.SourceX.GetValue(x, y, z)
+	yDisplace := y + displace.SourceY.GetValue(x, y, z)
+	zDisplace := z + displace.SourceZ.GetValue(x, y, z)
 
 	return displace.Source.GetValue(xDisplace, yDisplace, zDisplace)
+}
+
+type Turbulence1D struct {
+	Source           SourceInterface
+	Frequency, Power float64
+	Roughness, Seed  int
+}
+
+// GetValue returns the value from Source, computed using the displacement of x,y,z with SourceX, SourceY and SourceZ values.
+func (turbulence Turbulence1D) GetValue(x, y, z float64) float64 {
+	xPerlin := Perlin{
+		Frequency:   turbulence.Frequency,
+		Lacunarity:  2.0,
+		Persistence: 0.5,
+		OctaveCount: turbulence.Roughness,
+		Seed:        turbulence.Seed,
+	}
+
+	distortion := xPerlin.GetValue(x, y, z) * turbulence.Power
+	xDistort := x + distortion
+	yDistort := y + distortion
+	zDistort := z + distortion
+
+	return turbulence.Source.GetValue(xDistort, yDistort, zDistort)
 }
 
 type Turbulence struct {
@@ -149,9 +173,23 @@ func (turbulence Turbulence) GetValue(x, y, z float64) float64 {
 		OctaveCount: turbulence.Roughness,
 		Seed:        turbulence.Seed,
 	}
+	yPerlin := Perlin{
+		Frequency:   turbulence.Frequency,
+		Lacunarity:  2.0,
+		Persistence: 0.5,
+		OctaveCount: turbulence.Roughness,
+		Seed:        turbulence.Seed + 1,
+	}
+	zPerlin := Perlin{
+		Frequency:   turbulence.Frequency,
+		Lacunarity:  2.0,
+		Persistence: 0.5,
+		OctaveCount: turbulence.Roughness,
+		Seed:        turbulence.Seed + 2,
+	}
 	xDistort := x + (xPerlin.GetValue(x, y, z) * turbulence.Power)
-	yDistort := y + (xPerlin.GetValue(x, y, z) * turbulence.Power)
-	zDistort := z + (xPerlin.GetValue(x, y, z) * turbulence.Power)
+	yDistort := y + (yPerlin.GetValue(x, y, z) * turbulence.Power)
+	zDistort := z + (zPerlin.GetValue(x, y, z) * turbulence.Power)
 
 	return turbulence.Source.GetValue(xDistort, yDistort, zDistort)
 }
