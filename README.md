@@ -96,22 +96,19 @@ The Divide operator divides the value from a Source A by the value from a Source
 The Invert operator inverts the value. i.e. 1 => -1 and -1 => 1.
 
 #### Max
-The Max operator returns the highest value between a Source and the its parameter Max.
+The Max operator returns the highest value between two Sources.
 
 #### Min
-The Min operator returns the lowest value between a Source and the its parameter Min.
+The Min operator returns the lowest value between two Sources.
 
 #### Clamp
-The Clamp operator returns the value from a Source, clamped between [Min;Max].
+The Clamp operator returns the value from a Source, clamped between the Sources [Min;Max].
 
 #### Abs
 The Abs operator returns the absolute value from a Source, limiting it to [0;1].
 
 #### Power
 The Power operator returns the value from a Source A, powered by the value from a Source B.
-
-#### Exponent
-The Exponent operator returns the value from a Source, powered by Exponent.
 
 ### Result
 Once your generator is built, you can either fetch the value for one position:
@@ -162,8 +159,8 @@ generator := Multiply{
                 Seed:        seed,
             },
         },
-        Min: 0.0,
-        Max: 1.0,
+        Min: Constant{0.0},
+        Max: Constant{1.0},
     },
 }
 ```

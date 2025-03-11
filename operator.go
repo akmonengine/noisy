@@ -53,49 +53,47 @@ func (invert Invert) GetValue(x, y, z float64) float64 {
 
 // Max takes 1 source and a maximum value.
 type Max struct {
-	Source SourceInterface
-	Max    float64
+	SourceA SourceInterface
+	SourceB SourceInterface
 }
 
-// GetValue returns the value from Source, or the Max value if it is higher.
+// GetValue returns the value from SourceA, or the SourceB value if it is higher.
 func (max Max) GetValue(x, y, z float64) float64 {
-	value := max.Source.GetValue(x, y, z)
-
-	value = math.Max(value, max.Max)
+	value := math.Max(max.SourceA.GetValue(x, y, z), max.SourceB.GetValue(x, y, z))
 
 	return value
 }
 
 // Min takes 1 source and a minimum value.
 type Min struct {
-	Source SourceInterface
-	Min    float64
+	SourceA SourceInterface
+	SourceB SourceInterface
 }
 
-// GetValue returns the value from Source, or the Min value if it is lower.
+// GetValue returns the value from SourceA, or the SourceB value if it is lower.
 func (min Min) GetValue(x, y, z float64) float64 {
-	value := min.Source.GetValue(x, y, z)
-
-	value = math.Min(value, min.Min)
+	value := math.Min(min.SourceA.GetValue(x, y, z), min.SourceB.GetValue(x, y, z))
 
 	return value
 }
 
 // Clamp takes 1 source and min/max values.
 type Clamp struct {
-	Source   SourceInterface
-	Min, Max float64
+	Source               SourceInterface
+	SourceMin, SourceMax SourceInterface
 }
 
-// GetValue returns the value from Source, clamped between Min/Max.
+// GetValue returns the value from Source, clamped between the values of SourceMin/SourceMax.
 func (clamp Clamp) GetValue(x, y, z float64) float64 {
 	value := clamp.Source.GetValue(x, y, z)
+	minValue := clamp.SourceMin.GetValue(x, y, z)
+	maxValue := clamp.SourceMax.GetValue(x, y, z)
 
-	if clamp.Min > clamp.Max {
+	if minValue > maxValue {
 		return math.NaN()
 	}
-	value = math.Min(value, clamp.Max)
-	value = math.Max(value, clamp.Min)
+	value = math.Min(value, maxValue)
+	value = math.Max(value, minValue)
 
 	return value
 }
@@ -119,17 +117,4 @@ type Power struct {
 // GetValue returns the value from SourceA, powered by the value from SourceB.
 func (power Power) GetValue(x, y, z float64) float64 {
 	return math.Pow(power.SourceA.GetValue(x, y, z), power.SourceB.GetValue(x, y, z))
-}
-
-// Exponent takes 1 source, and an exponent.
-type Exponent struct {
-	Source   SourceInterface
-	Exponent float64
-}
-
-// GetValue returns the value from Source, powered by Exponent.
-func (exponent Exponent) GetValue(x, y, z float64) float64 {
-	value := exponent.Source.GetValue(z, y, z)
-
-	return math.Pow(math.Abs((value+1.0)/2.0), exponent.Exponent)*2.0 - 1.0
 }
