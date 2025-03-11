@@ -118,3 +118,18 @@ type Power struct {
 func (power Power) GetValue(x, y, z float64) float64 {
 	return math.Pow(power.SourceA.GetValue(x, y, z), power.SourceB.GetValue(x, y, z))
 }
+
+// Displace takes 1 Source to which we modify the axis with the value of the three SourceX, SourceY, SourceZ.
+type Displace struct {
+	Source                    SourceInterface
+	SourceX, SourceY, SourceZ SourceInterface
+}
+
+// GetValue returns the value from Source, computed using the displacement of x,y,z with SourceX, SourceY and SourceZ values.
+func (displace Displace) GetValue(x, y, z float64) float64 {
+	xDisplace := x + displace.SourceX.GetValue(x, y, z)
+	yDisplace := y + displace.SourceX.GetValue(x, y, z)
+	zDisplace := z + displace.SourceX.GetValue(x, y, z)
+
+	return displace.Source.GetValue(xDisplace, yDisplace, zDisplace)
+}
