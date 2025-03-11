@@ -1,6 +1,8 @@
 package noisy
 
-import "math"
+import (
+	"math"
+)
 
 // Add takes 2 sources to do the sum.
 type Add struct {
@@ -32,28 +34,32 @@ type Divide struct {
 
 // GetValue returns the division of the value from the SourceA by the value of the SourceB.
 func (divide Divide) GetValue(x, y, z float64) float64 {
+	if divide.SourceB.GetValue(x, y, z) == 0.0 {
+		return math.NaN()
+	}
+
 	return divide.SourceA.GetValue(x, y, z) / divide.SourceB.GetValue(x, y, z)
 }
 
 // Invert takes 1 source from which to inverse the values.
 type Invert struct {
-	SourceA SourceInterface
+	Source SourceInterface
 }
 
-// GetValue inverse (e.g. 1 => -1) the value from the SourceA.
+// GetValue inverse (e.g. 1 => -1) the value from the Source.
 func (invert Invert) GetValue(x, y, z float64) float64 {
-	return -invert.SourceA.GetValue(x, y, z)
+	return -invert.Source.GetValue(x, y, z)
 }
 
 // Max takes 1 source and a maximum value.
 type Max struct {
-	SourceA SourceInterface
-	Max     float64
+	Source SourceInterface
+	Max    float64
 }
 
-// GetValue returns the value from SourceA, or the Max value if it is higher.
+// GetValue returns the value from Source, or the Max value if it is higher.
 func (max Max) GetValue(x, y, z float64) float64 {
-	value := max.SourceA.GetValue(x, y, z)
+	value := max.Source.GetValue(x, y, z)
 
 	value = math.Max(value, max.Max)
 
@@ -62,13 +68,13 @@ func (max Max) GetValue(x, y, z float64) float64 {
 
 // Min takes 1 source and a minimum value.
 type Min struct {
-	SourceA SourceInterface
-	Min     float64
+	Source SourceInterface
+	Min    float64
 }
 
-// GetValue returns the value from SourceA, or the Min value if it is lower.
+// GetValue returns the value from Source, or the Min value if it is lower.
 func (min Min) GetValue(x, y, z float64) float64 {
-	value := min.SourceA.GetValue(x, y, z)
+	value := min.Source.GetValue(x, y, z)
 
 	value = math.Min(value, min.Min)
 
@@ -77,13 +83,13 @@ func (min Min) GetValue(x, y, z float64) float64 {
 
 // Clamp takes 1 source and min/max values.
 type Clamp struct {
-	SourceA  SourceInterface
+	Source   SourceInterface
 	Min, Max float64
 }
 
-// GetValue returns the value from SourceA, clamped between Min/Max.
+// GetValue returns the value from Source, clamped between Min/Max.
 func (clamp Clamp) GetValue(x, y, z float64) float64 {
-	value := clamp.SourceA.GetValue(x, y, z)
+	value := clamp.Source.GetValue(x, y, z)
 
 	if clamp.Min > clamp.Max {
 		return math.NaN()
@@ -96,12 +102,12 @@ func (clamp Clamp) GetValue(x, y, z float64) float64 {
 
 // Abs takes 1 source on which to fetch the absolute values.
 type Abs struct {
-	SourceA SourceInterface
+	Source SourceInterface
 }
 
-// GetValue returns the absolute value from SourceA.
+// GetValue returns the absolute value from Source.
 func (abs Abs) GetValue(x, y, z float64) float64 {
-	return math.Abs(abs.SourceA.GetValue(x, y, z))
+	return math.Abs(abs.Source.GetValue(x, y, z))
 }
 
 // Power takes 2 sources.
@@ -117,13 +123,13 @@ func (power Power) GetValue(x, y, z float64) float64 {
 
 // Exponent takes 1 source, and an exponent.
 type Exponent struct {
-	SourceA  SourceInterface
+	Source   SourceInterface
 	Exponent float64
 }
 
-// GetValue returns the value from SourceA, powered by Exponent.
+// GetValue returns the value from Source, powered by Exponent.
 func (exponent Exponent) GetValue(x, y, z float64) float64 {
-	value := exponent.SourceA.GetValue(z, y, z)
+	value := exponent.Source.GetValue(z, y, z)
 
 	return math.Pow(math.Abs((value+1.0)/2.0), exponent.Exponent)*2.0 - 1.0
 }
