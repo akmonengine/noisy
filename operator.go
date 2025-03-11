@@ -57,7 +57,7 @@ type Max struct {
 	SourceB SourceInterface
 }
 
-// GetValue returns the value from SourceA, or the Max value if it is higher.
+// GetValue returns the value from SourceA, or the SourceB value if it is higher.
 func (max Max) GetValue(x, y, z float64) float64 {
 	value := math.Max(max.SourceA.GetValue(x, y, z), max.SourceB.GetValue(x, y, z))
 
@@ -70,7 +70,7 @@ type Min struct {
 	SourceB SourceInterface
 }
 
-// GetValue returns the value from SourceA, or the Min value if it is lower.
+// GetValue returns the value from SourceA, or the SourceB value if it is lower.
 func (min Min) GetValue(x, y, z float64) float64 {
 	value := math.Min(min.SourceA.GetValue(x, y, z), min.SourceB.GetValue(x, y, z))
 
@@ -83,7 +83,7 @@ type Clamp struct {
 	SourceMin, SourceMax SourceInterface
 }
 
-// GetValue returns the value from Source, clamped between Min/SourceB.
+// GetValue returns the value from Source, clamped between the values of SourceMin/SourceMax.
 func (clamp Clamp) GetValue(x, y, z float64) float64 {
 	value := clamp.Source.GetValue(x, y, z)
 	minValue := clamp.SourceMin.GetValue(x, y, z)
