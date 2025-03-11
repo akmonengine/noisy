@@ -134,12 +134,12 @@ func TestMax_GetValue(t *testing.T) {
 		want      float64
 	}{
 		{"max1", Max{
-			Source: Constant{0.2},
-			Max:    0.3,
+			SourceA: Constant{0.2},
+			SourceB: Constant{0.3},
 		}, 0.3},
 		{"max2", Max{
-			Source: Constant{0.3},
-			Max:    0.2,
+			SourceA: Constant{0.3},
+			SourceB: Constant{0.2},
 		}, 0.3},
 	}
 
@@ -160,12 +160,12 @@ func TestMin_GetValue(t *testing.T) {
 		want      float64
 	}{
 		{"min1", Min{
-			Source: Constant{0.2},
-			Min:    0.1,
+			SourceA: Constant{0.2},
+			SourceB: Constant{0.1},
 		}, 0.1},
 		{"min2", Min{
-			Source: Constant{0.1},
-			Min:    0.2,
+			SourceA: Constant{0.1},
+			SourceB: Constant{0.2},
 		}, 0.1},
 	}
 
@@ -186,19 +186,19 @@ func TestClamp_GetValue(t *testing.T) {
 		want      float64
 	}{
 		{"clamp1", Clamp{
-			Source: Constant{0.2},
-			Min:    0.1,
-			Max:    0.3,
+			Source:    Constant{0.2},
+			SourceMin: Constant{0.1},
+			SourceMax: Constant{0.3},
 		}, 0.2},
 		{"clamp2", Clamp{
-			Source: Constant{-0.1},
-			Min:    0.1,
-			Max:    0.3,
+			Source:    Constant{-0.1},
+			SourceMin: Constant{0.1},
+			SourceMax: Constant{0.3},
 		}, 0.1},
 		{"clamp3", Clamp{
-			Source: Constant{0.4},
-			Min:    0.1,
-			Max:    0.3,
+			Source:    Constant{0.4},
+			SourceMin: Constant{0.1},
+			SourceMax: Constant{0.3},
 		}, 0.3},
 	}
 
