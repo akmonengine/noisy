@@ -116,6 +116,16 @@ The Abs operator returns the absolute value from a Source, limiting it to [0;1].
 #### Power
 The Power operator returns the value from a Source A, powered by the value from a Source B.
 
+#### Displace
+The Displace operator uses the three input Sources to displace the coordinates of the Source, to compute the final value.
+
+#### Turbulence
+The Turbulence operator uses 3 internal Perlin Noise to generate random displacement.
+It takes a Source, and three properties used to generate the noise:
+- Frequency
+- Roughness, the number of Octaves of the 3 Perlin Noise
+- Power, the scaling factor of the displacement
+
 ### Result
 Once your generator is built, you can either fetch the value for one position:
 ```go
@@ -179,7 +189,6 @@ generator := Multiply{
 - Voronoi source
 
 ### Operators
-- Displace
 - Terrace
 
 ### Processes
